@@ -1,0 +1,8 @@
+prefix=/home/jetson/rtx_ws/devel
+
+Name: ackermann_costmap_planner
+Description: Description of ackermann_costmap_planner
+Version: 0.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

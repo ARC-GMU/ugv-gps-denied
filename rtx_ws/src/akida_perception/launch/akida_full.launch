@@ -1,0 +1,16 @@
+<launch>
+  <!-- Azure Kinect -->
+  <!-- <include file="$(find azure_kinect_ros_driver)/launch/driver.launch"/> -->
+
+  <!-- Depth to grid -->
+  <node name="depth_to_grid" pkg="akida_perception" 
+        type="depth_to_grid.py" output="screen"/>
+
+  <!-- Grid receiver -->
+  <node name="akida_grid_receiver" pkg="akida_perception" 
+        type="grid_receiver.py" output="screen"/>
+
+  <!-- Pi app via SSH -->
+  <node name="pi_app" pkg="akida_perception" 
+        type="launch_pi.sh" output="screen"/>
+</launch>

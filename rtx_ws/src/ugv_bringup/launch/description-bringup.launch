@@ -1,0 +1,17 @@
+<launch>
+
+  <!-- Robot Description -->
+  <include file="$(find rtx_description)/launch/robot_description.launch"/>
+
+  <!-- UGV Bringup — Teensy motor controller -->
+  <include file="$(find ugv_bringup)/launch/bringup.launch"/>
+
+  <node name="tag_goal_sender" pkg="ugv_bringup"
+    type="tag_goal_sender.py" output="screen">
+    <param name="url" value="ws://10.42.0.99:9090"/>
+    <param name="tag_id" value="0"/>
+  </node>
+
+  <node name="mission_logger" pkg="ugv_bringup" type="mission_logger.py" output="screen"/>
+
+</launch>

@@ -1,0 +1,42 @@
+# TODO Change the robot footprint
+# Landing pad footprint: 36x24 in (0.914 x 0.610 m) — larger than vehicle body
+footprint: [[-0.457, -0.305], [-0.457, 0.305], [0.657, 0.305], [0.457, -0.305]]
+footprint_padding: 0.05
+
+robot_base_frame: base_link
+update_frequency: 5.0
+publish_frequency: 5.0
+transform_tolerance: 1.0  # Increased to handle potential TF delays
+
+resolution: 0.1
+
+obstacle_range: 8.0
+raytrace_range: 10.0
+
+#layer definitions
+static:
+   map_topic: /map
+   subscribe_to_updates: false
+
+# TODO Change the name of the topic
+obstacles_laser:
+    observation_sources: laser
+    laser: {data_type: LaserScan, clearing: true, marking: true, topic: /scan, inf_is_valid: true, obstacle_range: 10.0, raytrace_range: 12.0, observation_persistence: 2.0, expected_update_rate: 5.0, min_obstacle_height: 0.1, max_obstacle_height: 18.0}
+    # laser: {data_type: PointCloud2, clearing: true, marking: true, topic: /k4a/points2, obstacle_range: 3.0, raytrace_range: 5.0, observation_persistence: 0.3, expected_update_rate: 5.0, min_obstacle_height: 0.5, max_obstacle_height: 2.0}
+    # akida: {data_type: PointCloud2, clearing: false, marking: true, topic: /akida/obstacles, obstacle_range: 4.0, raytrace_range: 0.0, observation_persistence: 0.5, expected_update_rate: 5.0, min_obstacle_height: 0.0, max_obstacle_height: 1.5}
+    
+obstacles_cam:
+    observation_sources: cam
+    cam: {data_type: PointCloud2, clearing: true, marking: true, topic: /k4a/points2, obstacle_range: 3.0, raytrace_range: 5.0, observation_persistence: 2.0, expected_update_rate: 5.0, min_obstacle_height: 0.1, max_obstacle_height: 2.0}
+    # akida: {data_type: PointCloud2, clearing: false, marking: true, topic: /akida/obstacles, obstacle_range: 4.0, raytrace_range: 0.0, observation_persistence: 0.5, expected_update_rate: 5.0, min_obstacle_height: 0.0, max_obstacle_height: 1.5}
+    
+
+# INFO: how close would you want to the obstacle.
+inflation:
+    inflation_radius: 0.8  # Increased for safer navigation
+
+
+
+# akida_layer:
+#     map_topic: /akida/occupancy_grid
+#     subscribe_to_updates: true

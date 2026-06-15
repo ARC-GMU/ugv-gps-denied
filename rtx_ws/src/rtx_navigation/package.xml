@@ -1,0 +1,51 @@
+<package>
+  <license>MIT</license>
+  <name>rtx_navigation</name>
+  <version>0.1.0</version>
+  <description>Autonomous Navigation for rtx_robot</description>
+  <maintainer email="adatar@gmu.edu">Robotixx</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <build_depend>base_local_planner</build_depend>
+  <build_depend>costmap_2d</build_depend>
+  <build_depend>nav_core</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>tf2</build_depend>
+  <build_depend>tf2_geometry_msgs</build_depend>
+  <build_depend>tf2_ros</build_depend>
+
+  <run_depend>base_local_planner</run_depend>
+  <run_depend>costmap_2d</run_depend>
+  <run_depend>nav_core</run_depend>
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>pluginlib</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>tf2</run_depend>
+  <run_depend>tf2_geometry_msgs</run_depend>
+  <run_depend>tf2_ros</run_depend>
+
+  <export>
+    <nav_core plugin="${prefix}/ackermann_local_planner_plugin.xml"/>
+  </export>
+
+  <run_depend>amcl</run_depend>
+  <run_depend>gmapping</run_depend>
+  <run_depend>map_server</run_depend>
+  <run_depend>move_base</run_depend>
+  <run_depend>navfn</run_depend>
+  <run_depend>base_local_planner</run_depend>
+  <run_depend>dwa_local_planner</run_depend>
+
+  <build_depend>rospy</build_depend>
+  <run_depend>rospy</run_depend>
+
+  <build_depend>geometry_msgs</build_depend>
+  <run_depend>geometry_msgs</run_depend>
+
+  <build_depend>std_msgs</build_depend>
+  <run_depend>std_msgs</run_depend>
+
+</package>

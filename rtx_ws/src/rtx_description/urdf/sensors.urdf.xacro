@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="sensors" params="">
+
+    <!-- IMU link -->
+    <link name="wit_imu_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="blue"/>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+      </inertial>
+    </link>
+
+    <joint name="with_imu_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="wit_imu_link"/>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    </joint>
+
+    
+    <joint name="camera_base_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="camera_base"/>
+        <!--
+        Kinect RGB sensor is offset slightly from the body center 
+        -->
+        <origin xyz="0.6 0.0 0.2" rpy="0 0 0"/>
+    </joint>
+
+
+  </xacro:macro>
+
+</robot>

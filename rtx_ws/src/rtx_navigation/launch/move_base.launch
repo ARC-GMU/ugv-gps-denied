@@ -1,0 +1,60 @@
+<launch>
+
+  <arg name="no_static_map" default="true"/>
+  <arg name="lidar_range_min" default="1.0"/>
+
+  <include file="$(find ldlidar_stl_ros)/launch/ld19.launch" >
+    <arg name="range_min" value="$(arg lidar_range_min)"/>
+  </include>
+
+  <!-- INFO: Your global and local planners -->
+  <arg name="base_global_planner" default="navfn/NavfnROS"/>
+  <!-- <arg name="base_global_planner" default="global_planner/GlobalPlanner"/> -->
+  
+  <!--<arg name="base_local_planner" default="dwa_local_planner/DWAPlannerROS"/>-->
+  <arg name="base_local_planner" default="rtx_navigation/SamplingAckermannPlanner"/>
+  <!-- <arg name="base_local_planner" default="teb_local_planner/TebLocalPlannerROS"/> -->
+  
+  <node pkg="topic_tools" type="relay" name="odom_relay" 
+      args="/rtabmap/odometry/odom /odom" />
+
+  <!-- <node name="cmd_vel_bridge" pkg="rtx_navigation" type="cmd_vel_bridge.py" output="screen" /> -->
+
+  <node pkg="map_server" type="map_server" name="gps_map_server" output="screen"
+      args="$(find rtx_navigation)/maps/empty_map.yaml">
+      <param name="frame_id" value="odom" />
+  </node>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <!-- <param name="tf_prefix" value="losi" /> -->
+    <param name="base_global_planner" value="$(arg base_global_planner)"/>
+    <param name="base_local_planner" value="$(arg base_local_planner)"/>  
+    <rosparam file="$(find rtx_navigation)/config/planner.yaml" command="load"/>
+
+    <!-- observation sources located in costmap_common.yaml -->
+    <rosparam file="$(find rtx_navigation)/config/costmap_common.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find rtx_navigation)/config/costmap_common.yaml" command="load" ns="local_costmap" />
+
+    <!-- local costmap, needs size -->
+    <rosparam file="$(find rtx_navigation)/config/costmap_local.yaml" command="load" ns="local_costmap" />
+    <param name="local_costmap/width" value="30.0"/>
+    <param name="local_costmap/height" value="30.0"/>
+
+    <!-- static global costmap, static map provides size -->
+    <!-- <rosparam file="$(find rtx_navigation)/config/costmap_global_static.yaml" command="load" ns="global_costmap" unless="$(arg no_static_map)"/> -->
+    <rosparam file="$(find rtx_navigation)/config/costmap_global_static.yaml" command="load" ns="global_costmap"/>
+    <param name="global_costmap/width" value="50.0"/>
+    <param name="global_costmap/height" value="50.0"/>
+
+    
+    <!-- Increase transform tolerance for more stability -->
+    <param name="controller_patience" value="15.0"/>
+    <param name="recovery_behavior_enabled" value="false"/>
+    <param name="clearing_rotation_allowed" value="false"/>
+    <param name="planner_frequency" value="10.0"/>
+    <param name="oscillation_timeout" value="30.0"/>
+    <param name="oscillation_distance" value="0.5"/>
+    <param name="conservative_reset_dist" value="3.0"/>
+  </node>
+
+</launch>

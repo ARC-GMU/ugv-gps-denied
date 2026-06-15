@@ -1,0 +1,36 @@
+<launch>
+  <node pkg="ackermann_costmap_planner"
+        type="ackermann_costmap_planner.py"
+        name="ackermann_costmap_planner"
+        output="screen">
+
+    <param name="costmap_topic" value="/move_base/local_costmap/costmap"/>
+    <param name="odom_topic" value="/odom"/>
+    <param name="goal_topic" value="/local_goal"/>
+    <param name="drive_topic" value="/drive"/>
+
+    <param name="wheelbase" value="0.32"/>
+    <param name="max_steer" value="0.40"/>
+    <param name="nominal_speed" value="0.8"/>
+    <param name="min_speed" value="0.15"/>
+    <param name="max_speed" value="1.2"/>
+
+    <param name="num_steer_samples" value="25"/>
+    <param name="horizon_time" value="1.6"/>
+    <param name="dt" value="0.08"/>
+
+    <param name="robot_radius" value="0.25"/>
+    <param name="occupied_threshold" value="50"/>
+    <param name="treat_unknown_as_occupied" value="false"/>
+    <param name="collision_check_points" value="7"/>
+
+    <param name="w_goal" value="4.0"/>
+    <param name="w_heading" value="1.0"/>
+    <param name="w_clearance" value="1.0"/>
+    <param name="w_steer" value="0.15"/>
+    <param name="w_steer_change" value="0.4"/>
+
+    <param name="goal_tolerance" value="0.35"/>
+    <param name="rate" value="10.0"/>
+  </node>
+</launch>

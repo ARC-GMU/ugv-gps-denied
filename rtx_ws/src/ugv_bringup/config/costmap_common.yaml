@@ -1,0 +1,62 @@
+# # Robot footprint
+# footprint: [[-0.45, -0.25], [-0.45, 0.25], [0.45, 0.25], [0.45, -0.25]]
+# footprint_padding: 0.05
+
+# transform_tolerance: 0.5
+# resolution: 0.05
+
+# obstacle_range: 4.0
+# raytrace_range: 6.0
+
+# # Inflation
+# inflation_layer:
+#   inflation_radius: 0.5
+
+# # Obstacle sources (Laser)
+# obstacle_layer:
+#   observation_sources: laser
+#   laser:
+#     data_type: LaserScan
+#     topic: /scan
+#     marking: true
+#     clearing: true
+#     inf_is_valid: true
+
+
+# TODO Change the robot footprint
+footprint: [[-0.45, -0.25], [-0.45, 0.25], [0.45, 0.25], [0.45, -0.25]]
+footprint_padding: 0.05
+
+robot_base_frame: base_link
+update_frequency: 5.0
+publish_frequency: 10
+transform_tolerance: 1.0  # Increased to handle potential TF delays
+
+resolution: 0.05
+
+# TODO: You can Play around with this
+obstacle_range: 4
+raytrace_range: 6
+
+#layer definitions
+# static:
+#     map_topic: /map_assembler/grid_map
+#     subscribe_to_updates: true
+
+# TODO Change the name of the topic
+obstacles_laser:
+   observation_sources: laser 
+   laser: {data_type: LaserScan, clearing: true, marking: true, topic: /scan, inf_is_valid: true}
+
+# INFO: how close would you want to the obstacle.
+inflation:
+    inflation_radius: 0.8  # Increased for safer navigation
+
+# realsense:
+#   data_type: PointCloud2
+#   topic: /camera/depth/color/points
+#   marking: true
+#   clearing: true
+#   obstacle_range: 2.5
+#   raytrace_range: 3.0
+

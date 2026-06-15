@@ -1,0 +1,16 @@
+<package>
+    <license>MIT</license>
+    <name>rtx_description</name>
+    <version>1.0.0</version>
+    <description>Catkin metapackage for rtx robot description</description>
+    <maintainer email="adatar@gmu.edu">Robotixx</maintainer>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <buildtool_depend>catkin</buildtool_depend>
+    <build_depend>rospy</build_depend>
+    <build_depend>tf</build_depend>
+    <run_depend>rospy</run_depend>
+    <run_depend>tf</run_depend>
+
+</package>

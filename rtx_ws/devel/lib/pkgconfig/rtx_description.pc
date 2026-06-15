@@ -1,0 +1,8 @@
+prefix=/home/jetson/rtx_ws/devel
+
+Name: rtx_description
+Description: Description of rtx_description
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

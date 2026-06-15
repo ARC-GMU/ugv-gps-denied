@@ -1,8 +1,0 @@
-prefix=/home/jetson/catkin_ws/devel
-
-Name: wait_for_it
-Description: Description of wait_for_it
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: rospy std_msgs geometry_msgs nav_msgs tf2_ros

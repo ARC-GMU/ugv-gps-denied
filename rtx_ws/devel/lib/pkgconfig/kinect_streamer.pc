@@ -1,0 +1,8 @@
+prefix=/home/jetson/rtx_ws/devel
+
+Name: kinect_streamer
+Description: Description of kinect_streamer
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

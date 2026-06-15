@@ -1,0 +1,8 @@
+prefix=/home/jetson/rtx_ws/devel
+
+Name: akida_perception
+Description: Description of akida_perception
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

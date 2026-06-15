@@ -1,0 +1,225 @@
+controller_frequency: 20.0 # was 30.0, increased from 10.0 for tighter control
+recovery_behaviour_enabled: false
+
+# INFO: Your Global Planner
+NavfnROS:
+  allow_unknown: true # Specifies whether or not to allow navfn to create plans that traverse unknown space.
+  default_tolerance: 0.05 # A tolerance on the goal point for the planner.
+  use_quadratic: false
+  use_grid_path: false
+  use_dijkstra: true
+
+GlobalPlanner:
+  allow_unknown: true # Specifies whether or not to allow navfn to create plans that traverse unknown space.
+  default_tolerance: 0.1 # A tolerance on the goal point for the planner.
+  use_quadratic: true
+  use_grid_path: false
+  use_dijkstra: false
+  orientation_mode: 2
+  neutral_cost: 150
+
+
+# INFO: Unused Local Planner
+TrajectoryPlannerROS:
+  # Robot Configuration Parameters
+  acc_lim_x: 0.5
+  acc_lim_theta: 0.5
+
+  max_vel_x: 0.5
+  min_vel_x: -0.5
+
+  max_vel_theta: 1.0
+  min_vel_theta: -1.0
+  min_in_place_vel_theta: 0.0
+
+  holonomic_robot: false
+  escape_vel: -0.1
+
+  # Goal Tolerance Parameters
+  yaw_goal_tolerance: 0.8
+  xy_goal_tolerance: 0.5
+  latch_xy_goal_tolerance: false
+
+  # Forward Simulation Parameters
+  sim_time: 5.0
+  sim_granularity: 0.1
+  angular_sim_granularity: 0.1
+  vx_samples: 40
+  vtheta_samples: 40
+  controller_frequency: 20.0
+
+  # Trajectory scoring parameters
+  meter_scoring: true # Whether the gdist_scale and pdist_scale parameters should assume that goal_distance and path_distance are expressed in units of meters or cells. Cells are assumed by default (false).
+  occdist_scale:  0.1 #The weighting for how much the controller should attempt to avoid obstacles. default 0.01
+  pdist_scale: 0.75  #     The weighting for how much the controller should stay close to the path it was given . default 0.6
+  gdist_scale: 1.0 #     The weighting for how much the controller should attempt to reach its local goal, also controls speed  default 0.8
+
+  heading_lookahead: 0.325  #How far to look ahead in meters when scoring different in-place-rotation trajectories
+  heading_scoring: false  #Whether to score based on the robot's heading to the path or its distance from the path. default false
+  heading_scoring_timestep: 0.8   #How far to look ahead in time in seconds along the simulated trajectory when using heading scoring (double, default: 0.8)
+  dwa: true #Whether to use the Dynamic Window Approach (DWA)_ or whether to use Trajectory Rollout
+  simple_attractor: false
+  publish_cost_grid_pc: true  
+
+  # Oscillation Prevention Parameters
+  oscillation_reset_dist: 0.25 #How far the robot must travel in meters before oscillation flags are reset (double, default: 0.05)
+  escape_reset_dist: 0.1
+  escape_reset_theta: 0.1
+
+TebLocalPlannerROS:
+
+  # Trajectory
+  dt_ref: 0.3                      # Desired time resolution of the trajectory (lower = smoother but heavier)
+  dt_hysteresis: 0.1
+  max_samples: 100
+  global_plan_overwrite_orientation: true
+  allow_init_with_backwards_motion: false
+  global_plan_viapoint_sep: 0.3   # Sample global plan every 0.15m as via-points (keeps robot on path)
+  via_points_ordered: true
+  max_global_plan_lookahead_dist: 3.0
+  global_plan_prune_distance: 1.0
+  exact_arc_length: false
+  feasibility_check_no_poses: 5
+  publish_feedback: false
+
+  # Robot
+  footprint_model:
+    type: "polygon"
+    vertices: [[-0.457, -0.305], [-0.457, 0.305], [0.457, 0.305], [0.457, -0.305]]
+
+  max_vel_x: 0.4
+  max_vel_x_backwards: 0.2
+  max_vel_theta: 0.7
+  acc_lim_x: 0.15                   # Gentle acceleration reduces oscillation
+  acc_lim_theta: 0.4
+  min_turning_radius: 0.7         # Wheelbase 501mm / tan(35deg steering angle)
+
+  # GoalTolerance
+  xy_goal_tolerance: 0.5
+  yaw_goal_tolerance: 0.8
+  free_goal_vel: false
+
+  # Obstacles
+  min_obstacle_dist: 0.4
+  inflation_dist: 0.5
+  include_costmap_obstacles: true
+  costmap_obstacles_behind_robot_dist: 1.5
+  obstacle_poses_affected: 30
+  dynamic_obstacle_inflation_dist: 0.3
+  include_dynamic_obstacles: false
+
+  # Optimization — this is what fixes the wiggle and drift
+  no_inner_iterations: 10
+  no_outer_iterations: 5
+  optimization_activate: true
+  optimization_verbose: false
+  penalty_epsilon: 0.1
+  obstacle_cost_exponent: 4.0
+  weight_max_vel_x: 10.0
+  weight_max_vel_theta: 10.0
+  weight_acc_lim_x: 10.0
+  weight_acc_lim_theta: 1.0
+  weight_kinematics_nh: 1000.0     # High — enforce non-holonomic constraint (no sideways slip)
+  weight_kinematics_forward_drive: 1000.0  # High — strongly prefer driving forward, not wiggling
+  weight_kinematics_turning_radius: 1.0
+  weight_optimaltime: 1.0
+  weight_shortest_path: 10.0
+  weight_obstacle: 50.0
+  weight_inflation: 0.1
+  weight_dynamic_obstacle: 10.0
+  weight_viapoint: 10.0            # Pull robot toward via-points on the global path (fixes drift)
+  weight_adapt_factor: 2.0
+
+  # Homotopy Class Planner — disable multi-path to reduce oscillation
+  enable_homotopy_class_planning: false
+  enable_multithreading: true
+
+SamplingAckermannPlanner:
+  wheelbase: 0.6
+  track_width: 0.4
+  dt: 0.15
+  planning_frequency: 5.0
+  incremental_segments: 6
+  replan_deviation_threshold: 0.1
+  rollout_steps: 3
+  max_segments: 50
+  steering_samples: 101
+  mppi_num_rollouts: 101
+  mppi_noise_sigma_rad: 0.22
+  mppi_temperature: 0.25
+  mppi_control_weight: 0.02
+  mppi_progress_weight: 0.08
+  mppi_terminal_weight: 1.4
+  max_steering_deg: 40.0
+  max_speed: 0.16
+  min_speed: 0.13
+  reverse_enabled: true
+  max_reverse_speed: 0.15
+  min_reverse_speed: 0.15
+  reverse_heading_threshold_rad: 2.2
+  reverse_release_heading_threshold_rad: 1.5
+  forward_priority_bias: 0.05
+  use_path_planning: true
+  rviz_goal_topic: /move_base_simple_goal
+  goal_topic: /nav_goal
+  path_topic: /move_base/NavfnROS/plan
+  lookahead_distance: 0.8
+  path_goal_lookahead_distance: 1.2
+  min_steering_norm_cmd: 0.05
+  heading_turn_threshold_rad: 0.1
+  goal_stop_buffer: 0.1
+  goal_xy_tolerance: 0.3
+  goal_yaw_tolerance: 0.6
+  enable_final_reorientation: true
+  final_reorient_speed: 0.12
+  final_reorient_steering_norm: 0.35
+  lethal_cost_threshold: 220
+  obstacle_cost_penalty: 0.15
+
+  pid_kp: 2.0
+  pid_ki: 0.02
+  pid_kd: 0.2
+  pid_cte_kp: 0.7
+  pid_integral_limit: 0.6
+
+# INFO: Your default local planner
+DWAPlannerROS:
+  # Robot configuration parameters  
+  acc_lim_x: 3.0
+  acc_lim_y: 0
+  acc_lim_th: 1.5
+
+  max_vel_x: 0.5
+  min_vel_x: -0.5
+  max_vel_y: 0
+  min_vel_y: 0
+
+  max_vel_trans: 0.5  #Anuj- changed this for no translational vel
+  min_vel_trans: -0.5
+  max_vel_rot: 1.0
+  min_vel_rot: 0.5
+
+  # Goal Tolerance Parameters
+  yaw_goal_tolerance: 0.2
+  xy_goal_tolerance: 1.5
+  latch_xy_goal_tolerance: false
+
+  # Forward Simulation Parameters
+  sim_time: 20.0
+  sim_granularity: 0.05
+  vx_samples: 50
+  vy_samples: 0
+  vtheta_samples: 30
+  penalize_negative_x: false
+
+  # # Trajectory scoring parameters
+  # path_distance_bias: 32.0 # The weighting for how much the controller should stay close to the path it was given
+  # goal_distance_bias: 24.0 # The weighting for how much the controller should attempt to reach its local goal, also controls speed
+  # occdist_scale: 0.01 # The weighting for how much the controller should attempt to avoid obstacles
+  # forward_point_distance: 0.325 # The distance from the center point of the robot to place an additional scoring point, in meters
+  # stop_time_buffer: 0.2  # The amount of time that the robot must stThe absolute value of the veolicty at which to start scaling the robot's footprint, in m/sop before a collision in order for a trajectory to be considered valid in seconds
+  # scaling_speed: 0.25 # The absolute value of the veolicty at which to start scaling the robot's footprint, in m/s
+  # max_scaling_factor: 0.2 # The maximum factor to scale the robot's footprint by
+
+  # # Oscillation Prevention Parameters
+  # oscillation_reset_dist: 0.25 #How far the robot must travel in meters before oscillation flags are reset (double, default: 0.05)

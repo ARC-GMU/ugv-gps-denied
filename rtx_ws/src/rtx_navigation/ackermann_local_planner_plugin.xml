@@ -1,0 +1,9 @@
+<library path="lib/librtx_sampling_ackermann_planner">
+  <class name="rtx_navigation/SamplingAckermannPlanner"
+         type="rtx_navigation::SamplingAckermannPlanner"
+         base_class_type="nav_core::BaseLocalPlanner">
+    <description>
+      Sampling-based Ackermann local planner with costmap rollouts and PID path following.
+    </description>
+  </class>
+</library>
