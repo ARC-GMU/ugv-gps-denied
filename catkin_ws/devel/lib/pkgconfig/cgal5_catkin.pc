@@ -1,0 +1,8 @@
+prefix=/home/jetson/catkin_ws/devel
+
+Name: cgal5_catkin
+Description: Description of cgal5_catkin
+Version: 5.0.2
+Cflags: -I/home/jetson/catkin_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: 

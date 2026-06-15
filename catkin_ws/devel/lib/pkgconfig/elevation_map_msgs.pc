@@ -1,0 +1,8 @@
+prefix=/home/jetson/catkin_ws/devel
+
+Name: elevation_map_msgs
+Description: Description of elevation_map_msgs
+Version: 0.0.0
+Cflags: -I/home/jetson/catkin_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: 

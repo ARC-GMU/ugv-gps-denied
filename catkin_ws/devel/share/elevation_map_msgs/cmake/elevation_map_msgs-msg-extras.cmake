@@ -1,0 +1,2 @@
+set(elevation_map_msgs_MESSAGE_FILES "/home/jetson/catkin_ws/src/elevation_mapping_cupy/elevation_map_msgs/msg/Statistics.msg;/home/jetson/catkin_ws/src/elevation_mapping_cupy/elevation_map_msgs/msg/ChannelInfo.msg")
+set(elevation_map_msgs_SERVICE_FILES "/home/jetson/catkin_ws/src/elevation_mapping_cupy/elevation_map_msgs/srv/CheckSafety.srv;/home/jetson/catkin_ws/src/elevation_mapping_cupy/elevation_map_msgs/srv/Initialize.srv")
